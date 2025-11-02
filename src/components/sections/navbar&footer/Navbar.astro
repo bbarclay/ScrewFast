@@ -13,93 +13,85 @@ const strings = Astro.currentLocale === "fr" ? frStrings : enStrings;
 const homeUrl = Astro.currentLocale === "fr" ? "/fr" : "/";
 ---
 
-<!-- Main header component -->
-<header
-  class="sticky inset-x-0 top-4 z-50 flex w-full flex-wrap text-sm md:flex-nowrap md:justify-start"
->
+<!-- Modern enterprise-style header -->
+<header class="fixed top-0 w-full z-50 border-b border-neutral-200/60 dark:border-neutral-800/60 bg-gradient-to-b from-white/80 to-white/50 dark:from-neutral-900/80 dark:to-neutral-900/50 backdrop-blur-xl backdrop-saturate-150 shadow-sm transition-colors duration-300 ease-out">
   <!-- Navigation container -->
   <nav
-    class="relative mx-2 w-full rounded-[36px] border border-yellow-100/40 bg-yellow-50/60 px-4 py-3 backdrop-blur-md dark:border-neutral-700/40 dark:bg-neutral-800/80 dark:backdrop-blur-md md:flex md:items-center md:justify-between md:px-6 md:py-0 lg:px-8 xl:mx-auto"
+    class="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-8"
     aria-label="Global"
   >
-    <div class="flex items-center justify-between">
-      <!-- Brand logo -->
+    <!-- Left: Logo -->
+    <div class="flex items-center">
       <a
-        class="flex-none rounded-lg text-xl font-bold outline-hidden ring-zinc-500 focus-visible:ring-3 dark:ring-zinc-200 dark:focus:outline-hidden"
         href={homeUrl}
+        class="flex items-center gap-2 text-neutral-900 dark:text-white transition-opacity hover:opacity-80"
         aria-label="Brand"
       >
-        <BrandLogo class="h-auto w-24" />
+        <BrandLogo class="h-12 w-auto" />
       </a>
-      <!-- Collapse toggle for smaller screens -->
-      <div class="ml-auto mr-5 md:hidden">
-        <button
-          type="button"
-          class="hs-collapse-toggle flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-neutral-600 transition duration-300 hover:bg-neutral-200 disabled:pointer-events-none disabled:opacity-50 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:outline-hidden"
-          data-hs-collapse="#navbar-collapse-with-animation"
-          aria-controls="navbar-collapse-with-animation"
-          aria-label="Toggle navigation"
-        >
-          <svg
-            class="h-[1.25rem] w-[1.25rem] shrink-0 hs-collapse-open:hidden"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <line x1="3" x2="21" y1="6" y2="6"></line>
-            <line x1="3" x2="21" y1="12" y2="12"></line>
-            <line x1="3" x2="21" y1="18" y2="18"></line>
-          </svg>
-          <svg
-            class="hidden h-[1.25rem] w-[1.25rem] shrink-0 hs-collapse-open:block"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M18 6 6 18"></path>
-            <path d="m6 6 12 12"></path>
-          </svg>
-        </button>
-      </div>
-      <!-- ThemeIcon component specifically for smaller screens -->
-      <span class="inline-block md:hidden">
-        <ThemeIcon />
-      </span>
     </div>
-    <!-- Contains navigation links -->
-    <div
-      id="navbar-collapse-with-animation"
-      class="hs-collapse hidden grow basis-full overflow-hidden transition-all duration-300 md:block"
-    >
-      <!-- Navigation links container -->
-      <div
-        class="mt-5 flex flex-col gap-x-0 gap-y-4 md:mt-0 md:flex-row md:items-center md:justify-end md:gap-x-4 lg:gap-x-7 md:gap-y-0 md:ps-7"
-      >
-        <!-- Navigation links and Authentication component -->
-        {strings.navBarLinks.map(link => (
-          <NavLink url={link.url} name={link.name} />
-        ))}
 
-        <Authentication />
+    <!-- Center: Navigation Links (Desktop) -->
+    <div class="hidden lg:flex lg:items-center lg:gap-1">
+      {strings.navBarLinks.map(link => (
+        <a
+          href={link.url}
+          class="px-3 py-2 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white transition-colors rounded-md hover:bg-neutral-100/40 dark:hover:bg-neutral-800/40 hover:underline underline-offset-8 decoration-blue-500/60"
+        >
+          {link.name}
+        </a>
+      ))}
+    </div>
+
+    <!-- Right: Actions -->
+    <div class="flex items-center gap-3">
+      <div class="hidden lg:flex items-center gap-3">
         <LanguagePicker />
-        <!-- ThemeIcon component specifically for larger screens -->
-        <span class="hidden md:inline-block">
-          <ThemeIcon />
-        </span>
+        <ThemeIcon />
       </div>
+
+      <Authentication />
+
+      <!-- Mobile menu button -->
+      <button
+        type="button"
+        class="lg:hidden p-2 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md transition-colors hs-collapse-toggle"
+        data-hs-collapse="#mobile-menu"
+        aria-controls="mobile-menu"
+        aria-label="Toggle navigation"
+      >
+        <svg class="w-6 h-6 hs-collapse-open:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <svg class="w-6 h-6 hidden hs-collapse-open:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
     </div>
   </nav>
+  <!-- Subtle glowing gradient bar along the bottom edge -->
+  <div class="pointer-events-none absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500/60 to-transparent" aria-hidden="true"></div>
+
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hs-collapse hidden lg:hidden overflow-hidden transition-all duration-300">
+    <div class="px-6 py-4 space-y-1 border-t border-neutral-200/50 dark:border-neutral-800/50 bg-white/95 dark:bg-neutral-900/95">
+      {strings.navBarLinks.map(link => (
+        <a
+          href={link.url}
+          class="block px-3 py-2 text-base font-medium text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100/50 dark:hover:bg-neutral-800/50 rounded-md transition-colors"
+        >
+          {link.name}
+        </a>
+      ))}
+      <div class="flex items-center gap-4 pt-4 border-t border-neutral-200/50 dark:border-neutral-800/50 mt-4">
+        <LanguagePicker />
+        <ThemeIcon />
+      </div>
+    </div>
+  </div>
 </header>
+
 <!-- Theme Appearance script to manage light/dark modes -->
 <script is:inline>
   const HSThemeAppearance = {
