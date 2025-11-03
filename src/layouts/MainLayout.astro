@@ -5,6 +5,10 @@ import Navbar from "@components/sections/navbar&footer/Navbar.astro";
 import FooterSection from "@components/sections/navbar&footer/FooterSection.astro";
 import { SITE } from "@data/constants";
 import "@styles/global.css";
+import "@styles/gsap-animations.css";
+import "@styles/homepage-animations.css";
+import "@/styles/advanced.css";
+import "@/styles/brand-system.css";
 
 // Setting expected props
 const {
@@ -39,7 +43,7 @@ interface Props {
     {/* Define the title of the page */}
     <title>{title}</title>
     <script is:inline>
-      // Script to handle dark mode. It will check if the theme is stored in localStorage or if dark theme is preferred by system settings
+      // Proper dark mode detection for GarrettIntegrations
       if (
         localStorage.getItem("hs_theme") === "dark" ||
         (!("hs_theme" in localStorage) &&
@@ -51,18 +55,28 @@ interface Props {
       }
     </script>
     <script>
-      import "@scripts/lenisSmoothScroll.js";
+      import "@/assets/scripts/reducedMotion.js";
     </script>
+    <script>
+      import "@/assets/scripts/lenisSmoothScroll.js";
+    </script>
+    <script>
+      import "@/assets/scripts/gsapAnimations.js";
+    </script>
+    <!-- Magnetic elements disabled - causing hover issues -->
+    <!-- <script>
+      import "@scripts/magneticElements.js";
+    </script> -->
   </head>
   <body
-    class="bg-neutral-200 selection:bg-yellow-400 selection:text-neutral-700 dark:bg-neutral-800 flex flex-col min-h-screen"
+    class="font-enterprise bg-white text-neutral-900 dark:bg-neutral-900 dark:text-neutral-100 selection:bg-amber-400/30 selection:text-neutral-900 dark:selection:bg-amber-500/30 dark:selection:text-neutral-100 flex flex-col min-h-screen transition-all duration-500 antialiased tracking-enterprise overflow-x-hidden"
   >
     {/*
     Setting up the main structure of the page.
     The Navbar is placed at the top, with a slot for the main content and FooterSection at the bottom.
     */}
-    <div class="w-full mx-auto max-w-(--breakpoint-2xl) px-4 sm:px-6 lg:px-8 flex-grow">
-      <Navbar />
+    <Navbar />
+    <div class="w-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex-grow overflow-x-hidden">
       <main>
         <slot />
       </main>
@@ -71,6 +85,14 @@ interface Props {
     <script>
       // https://preline.co
       import "preline/preline.js";
+    </script>
+    <script>
+      // Enterprise scroll animations and interactions
+      import "@/assets/js/scroll-animations.js";
+    </script>
+    <script>
+      // Advanced animations and parallax effects
+      import "@/scripts/advanced-animations.js";
     </script>
     <style>
       /* CSS rules for the page scrollbar */
